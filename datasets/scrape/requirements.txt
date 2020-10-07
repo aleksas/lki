@@ -1,2 +1,2 @@
 scrapy
-xmltodict
+h5py
