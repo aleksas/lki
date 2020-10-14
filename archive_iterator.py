@@ -19,17 +19,21 @@ def get_words():
 					for word in parser(content):
 						yield word
 
-if __name__ == '__main__':
+def get_word_pairs(words):
 	char_str = ''.join(chars.utf8_stress_map.values())
 	chars_re = re.compile('[' + char_str + ']')
 
 	word_set = set([])
-	for word in get_words():
-		word_set.add(word.lower())
-	
-	words = sorted(list(word_set))
+	for word in words:
+		word_lower = word.lower()
+		if word_lower in word_set:
+			continue
+		word_set.add(word_lower)
 
-	for word in word_set:
-		destressed_word = chars_re.sub('', word)
-		if destressed_word != word:
-			print (word, destressed_word)
+		destressed_word_lower = chars_re.sub('', word_lower)
+		if destressed_word_lower != word_lower:
+			yield word_lower, destressed_word_lower	
+
+if __name__ == '__main__':
+	for word, destressed_word in get_word_pairs(get_words()):
+		print(word, destressed_word)

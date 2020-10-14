@@ -5,6 +5,17 @@ from io import TextIOWrapper
 from xml.etree import ElementTree as ET 
 
 def modern_lt_vocabulary(content):
+	alt_re = re.compile('\(([^()]+)\)')
+
+	def expand_altirnatives(words):
+		for word in words:
+			m = alt_re.search(word)
+			if m:
+				yield alt_re.sub('', word)
+				yield alt_re.sub(r'\1', word)
+			else:
+				yield word
+
 	def parse_word_elements(words_el, word_cache):
 		for word_el in words_el.findall('el[@name="word"]'):
 			ending_el = word_el.find('el[@name="ending"]')	
@@ -41,7 +52,7 @@ def modern_lt_vocabulary(content):
 			example = example_el.get('value') if example_el != None else None
 
 			yield {
-				'words': parse_word_elements(words_el, word_cache),
+				'words': expand_altirnatives(parse_word_elements(words_el, word_cache)),
 				'example': example,
 				'explanation': explanation
 			}
@@ -50,7 +61,6 @@ def modern_lt_vocabulary_words(content):
 	for each in modern_lt_vocabulary(content):
 		for word in each['words']:
 			yield word
-
 
 def historic_location_names(content):
 	name_re = re.compile(r'^([^(\\]+?)\s*((\(|\\\\|\/\/).+)?$')
