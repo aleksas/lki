@@ -4,8 +4,8 @@ import urllib.request
 from tqdm import tqdm
 from zipfile import ZipFile
 
-import chars
-from parsers import modern_lt_vocabulary_words, historic_location_names, last_names, lt_lv_dict
+from . import chars
+from .parsers import modern_lt_vocabulary_words, historic_location_names, last_names, lt_lv_dict
 
 datasets = [
 	('207-dlkz.zip', 'utf-8', modern_lt_vocabulary_words),

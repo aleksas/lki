@@ -23,6 +23,6 @@ def get_ets(filename):
             with BytesIO(zf.read(name)) as bf:
                 yield ElementTree.parse(bf)
 
-for element_tree in get_ets('datasets/scrape/dlkz.zip'):
+for element_tree in get_ets('datasets/dlkz.zip'):
     print (element_tree.getroot())
 ```
