@@ -1,8 +1,10 @@
-import json
 import re
-import chars
+import os
+import json
 from io import TextIOWrapper
 from xml.etree import ElementTree as ET 
+
+import chars
 
 def modern_lt_vocabulary(content):
 	alt_re = re.compile('\(([^()]+)\)')
